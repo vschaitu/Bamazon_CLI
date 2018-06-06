@@ -4,12 +4,6 @@ var mysql = require('mysql');
 // inquirer npm
 var inquirer = require('inquirer');
 
-// Add moment npm to get timestamp for logging
-var moment = require('moment');
-
-// Add fs pkg required for wirting logs
-var fs = require("fs");
-
 // dbconfig object
 var dbconfig = {
   //hot
@@ -71,7 +65,7 @@ function start() {
     results.forEach(obj => {
       console.log("| " + obj.product_id.toString().padEnd(3) + "| " + obj.product_name.padEnd(30) + "| " + obj.product_price.toString().padEnd(10) + "| " + obj.stock_quantity.toString().padEnd(10) + "| " + obj.department_name.padEnd(30) + "|");
     });
-    console.log("----------------------------------------------------------------------------------------------");
+    console.log("----------------------------------------------------------------------------------------------\n");
     // Prompt user to enter the product ID & Quanity he wants to Buy
     buymethod();
   });
