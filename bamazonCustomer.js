@@ -84,7 +84,6 @@ function buymethod() {
       // using item Id entered, get details from the products table
       con.query(querybyId, [{ product_id: id }], function (err, results) {
         if (err) throw err;
-        console.log(results);
         // if no rows retruned , error out saying invalid product & reask questions
         if (results[0] === undefined) {
           console.log("Invalid Product ID, Doesn't exist! Please try again");
