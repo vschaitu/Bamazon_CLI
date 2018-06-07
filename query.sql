@@ -47,5 +47,5 @@ SELECT * FROM tb_products;
 SELECT tb_products.product_id as product_id, tb_products.product_name as product_name, tb_products.product_price, tb_products.stock_quantity as stock_quantity, tb_department.department_name as department_name FROM tb_products LEFT JOIN tb_department on tb_products.department_id = tb_department.department_id;
 
 
-
+SELECT tb_products.product_id as product_id, tb_products.product_name as product_name, tb_products.product_price, tb_products.stock_quantity as stock_quantity, tb_department.department_name as department_name FROM tb_products JOIN tb_department on tb_products.department_id = tb_department.department_id AND tb_products.stock_quantity <= 5;
 

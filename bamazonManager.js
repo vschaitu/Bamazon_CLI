@@ -23,7 +23,7 @@ var dbconfig = {
 var con = mysql.createConnection(dbconfig);
 
 // sql gets all products with the department name from department table
-var queryProducts = "SELECT tb_products.product_id as product_id, tb_products.product_name as product_name, tb_products.product_price, tb_products.stock_quantity as stock_quantity, tb_products.sold_quantity as sold_quantity, tb_department.department_name as department_name FROM tb_products LEFT JOIN tb_department on tb_products.department_id = tb_department.department_id";
+var queryProducts = "SELECT tb_products.product_id as product_id, tb_products.product_name as product_name, tb_products.product_price, tb_products.stock_quantity as stock_quantity, tb_products.sold_quantity as sold_quantity, tb_department.department_name as department_name FROM tb_products LEFT JOIN tb_department on tb_products.department_id = tb_department.department_id ORDER by tb_products.product_id";
 
 
 // sql gets all products deatils when stock is less than or equal to 5
@@ -33,7 +33,7 @@ var queryLowinventory = "SELECT tb_products.product_id as product_id, tb_product
 var queryprodUpdate = "UPDATE tb_products SET stock_quantity = (stock_quantity + ?) WHERE product_id = ?";
 
 // insert into Product table
-var queryprodInsert = "INSERT INTO tb_products(product_name, department_id, product_price, stock_quantity) VALUES ?";
+var queryprodInsert = "INSERT INTO tb_products SET ?";
 
 var listOptions = [{
     name: "options",
@@ -148,24 +148,22 @@ function addInventory() {
 }
 
 
-// Function to add inventory 
+// Function to add new product 
 function addProduct() {
     inquirer.prompt(prodQuestions).then(function (answers) {
-        console.log(answers);
         var price = 1.00;
         var id = parseInt(answers.department_id);
         var name = answers.product_name;
         var floatprice = parseFloat(answers.product_price);
         var quantity = parseInt(answers.stock_quantity);
         price = price * floatprice;
-        console.log(name, id, price, quantity);
         // check if the user entered proper values , if not log & ask question again
         if (isNaN(id) || isNaN(quantity) || quantity <= 0 || isNaN(price) || name.length < 1 || price <= 0) {
             console.log("Invalid entries, try again!\n")
             addProduct();
         } else {
             // Insert into prodcut row 
-            con.query(queryprodInsert, [name, id, price, quantity], function (err, results) {
+            con.query(queryprodInsert, { 'product_name': name, 'department_id': id, 'product_price': price, 'stock_quantity': quantity }, function (err, results) {
                 if (err) throw err;
                 if (results.affectedRows === 0) {
                     console.log("Insert unsucessful, try again with valid values!\n")
